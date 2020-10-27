@@ -3,7 +3,7 @@
 
 # Noeud d'un BArbre.
 # Attributs : est_feuille (determine si un noeud est une feuille ou non) ; cle (liste des cles d'un noeud) ;
-# fils (liste, liste des fils d'un noeud)
+# fils (liste, liste des enfants d'un noeud)
 
 class BTreeNode:
     def __init__(self):
@@ -18,7 +18,7 @@ class BTreeNode:
             return "Noeud interne avec {0} cles, {1} fils\n\tcles : {2}\n\n".format(len(self.cle), len(self.fils),
                                                                                     self.cle, self.fils)
 
-    # Rajouter un fils a un noeud
+    # Rajouter un enfant a un noeud
 
     def ajouter_fils(self, nouveau_noeud):
         i = len(self.fils) - 1
@@ -26,7 +26,7 @@ class BTreeNode:
             i -= 1
         return self.fils[:i + 1] + [nouveau_noeud] + self.fils[i + 1:]
 
-    # Diviser un noeud
+    # Diviser un noeud (non racine)
 
     def diviser(self, parent):
         nouveau_noeud = BTreeNode()
@@ -35,7 +35,7 @@ class BTreeNode:
         # On fait remonter la valeur "centrale" dans le noeud parent
         parent.cle.append(valeur_milieu)
         parent.cle.sort()
-        # Il ne reste plus qu'a attribuer les cles et les fils aux bons noeuds
+        # Il ne reste plus qu'a attribuer les cles et les enfants aux bons noeuds
         nouveau_noeud.fils = self.fils[indice_milieu + 1:]
         self.fils = self.fils[:indice_milieu + 1]
         nouveau_noeud.cle = self.cle[indice_milieu + 1:]
@@ -43,23 +43,26 @@ class BTreeNode:
         # On verifie si le nouveau noeud est une feuille
         if len(nouveau_noeud.fils) > 0:
             nouveau_noeud.est_feuille = False
-        # On rajoute le nouveau noeud aux fils de parent
+        # On rajoute le nouveau noeud à la liste des enfants de parent
         parent.fils = parent.ajouter_fils(nouveau_noeud)
-        # On recupere les indices des noeuds divises dans la liste des fils
+        # On recupere les indices des noeuds divises dans la liste des enfants (de parent)
         i, j = parent.fils.index(self), parent.fils.index(nouveau_noeud)
         # On retourne ces trois valeurs pour pouvoir decider ou effectuer la recherche/insertion apres le split
         return valeur_milieu, i, j
 
 
 class BTree:
-    def __init__(self, ordre):
+    def __init__(self, t):
         self.racine = BTreeNode()
-        self.ordre = ordre
+        # t est le degre minimal de l'arbre (t >= 2)
+        self.t = t
+        if self.t < 2:
+            raise ValueError("Un B-Arbre doit etre de degre au moins egal a 2")
 
-    # Verifie si un noeud du BArbre est plein (ou non)
+    # Verifie si un noeud du BArbre est complet (ou non)
 
     def is_full(self, noeud):
-        return len(noeud.cle) == 2 * self.ordre
+        return len(noeud.cle) == 2 * self.t - 1
 
     # Recherche une valeur parmi les cles d'un BArbre
 
@@ -99,7 +102,7 @@ class BTree:
         # Tant qu'on n'a pas atteint une feuille (on insere uniquement dans une feuille)
         while not noeud.est_feuille:
             indice = len(noeud.cle) - 1
-            # On cherche dans quel intervalle (avec quel fils) poursuivre l'insertion (jusqu'a une feuille)
+            # On cherche dans quel intervalle (avec quel enfant) poursuivre l'insertion (jusqu'a une feuille)
             while indice > 0 and valeur < noeud.cle[indice]:
                 indice -= 1
             prochain_noeud = noeud.fils[indice + 1]
@@ -111,7 +114,7 @@ class BTree:
                     noeud = noeud.fils[m]
             else:
                 noeud = prochain_noeud
-        # Vu qu'on divise tous les noeuds pleins dans la descente, on peut inserer la valeur dans la feuille
+        # Vu qu'on divise tous les noeuds complets dans la descente, on peut inserer la valeur dans la feuille
         noeud.cle.append(valeur)
         noeud.cle.sort()
         return self
@@ -120,6 +123,11 @@ class BTree:
 
     def __str__(self):
         return '\n' + self.racine.__str__() + '\n'.join([fils.__str__() for fils in self.racine.fils])
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Tests
+# ----------------------------------------------------------------------------------------------------------------------
 
 
 # arbre = BTree(3)
