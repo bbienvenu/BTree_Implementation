@@ -1,4 +1,4 @@
-# BTree_Implementation
+# Implémentation de B-Arbres
 Programmation de B-Arbres en python
 
 Cette implémentation est basée sur l'approche utilisée dans le livre :
