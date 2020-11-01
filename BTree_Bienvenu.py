@@ -64,23 +64,35 @@ class BTree:
     def is_full(self, noeud):
         return len(noeud.cle) == 2 * self.t - 1
 
+    # # Print the tree
+    # def print_tree(self, x, level=0):
+    #     print("Level ", level, " ", len(x.cle), end=":")
+    #     for i in x.cle:
+    #         print(i, end=" ")
+    #     print()
+    #     level += 1
+    #     if len(x.fils) > 0:
+    #         for i in x.fils:
+    #             self.print_tree(i, l)
+    #     return
+
     # Recherche une valeur parmi les cles d'un BArbre
 
     def recherche(self, valeur, noeud=None):
         # Si on ne precise pas a partir de quel noeud effectuer la recherche, on commence a la racine
         if noeud is None:
             noeud = self.racine
-        # Si la valeur recherchee se trouve dans les cles du noeud courant, on s'arrete et on renvoie True
-        if valeur in noeud.cle:
-            return True
-        # On s'arrete si la valeur n'est pas dans les cles et on a atteint une feuille (on renvoie False)
-        elif noeud.est_feuille:
-            return False
         # On cherche parmi les enfants (on trouve le bon intervalle de recherche en comparant la valeur aux cles)
         indice = 0
         n = len(noeud.cle)
         while indice < n and valeur > noeud.cle[indice]:
             indice += 1
+        # Si la valeur recherchee se trouve dans les cles du noeud courant, on s'arrete et on renvoie True
+        if indice < n and valeur == noeud.cle[indice]:
+            return True
+        # On s'arrete si la valeur n'est pas dans les cles et on a atteint une feuille (on renvoie False)
+        elif noeud.est_feuille:
+            return False
         return self.recherche(valeur, noeud.fils[indice])
 
     # Inserer une valeur dans un BArbre (algorithme proactif, cf. Cormen)
@@ -119,11 +131,15 @@ class BTree:
         noeud.cle.sort()
         return self
 
+    # Supprime une cle de l'arbre
+
+    def suppression(self, valeur):
+        return
+
     # Affiche le BArbre
 
     def __str__(self):
         return '\n' + self.racine.__str__() + '\n'.join([fils.__str__() for fils in self.racine.fils])
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Tests
