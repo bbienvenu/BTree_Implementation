@@ -5,11 +5,19 @@
 # Attributs : est_feuille (determine si un noeud est une feuille ou non) ; cle (liste des cles d'un noeud) ;
 # fils (liste, liste des enfants d'un noeud)
 
+from collections import deque
+
 class BTreeNode:
     def __init__(self):
         self.cle = list()
         self.fils = list()
         self.est_feuille = True
+
+    def parcours(self):
+        yield self 
+        for enfant in self.fils:
+            yield from enfant.parcours()
+
 
     def __str__(self):
         if self.est_feuille:
@@ -57,9 +65,6 @@ class BTreeNode:
             res += "<f{}> |".format(2*(i+1))
         return res[:-2]
 
-    def genere_edge_graphiz(self):
-        res = ''
-
 class BTree:
     def __init__(self, t):
         self.racine = BTreeNode()
@@ -67,6 +72,12 @@ class BTree:
         self.t = t
         if self.t < 2:
             raise ValueError("Un B-Arbre doit etre de degre au moins egal a 2")
+
+    def __iter__(self):
+        return self.racine.parcours()
+
+    def __next__(self):
+        return self
 
     # Verifie si un noeud du BArbre est complet (ou non)
 
