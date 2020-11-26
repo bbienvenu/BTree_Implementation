@@ -23,6 +23,7 @@ def genere_digrap(arbre):
         for fils in node.fils:
             parent = parent_init
             j = liste_nodes.index(fils)
+            ind_edge = len(fils.cle)
             bonne_cle = 0
             if node.cle[bonne_cle] <= fils.cle[0]:
                 if node.cle[-1] < fils.cle[0]:
@@ -33,7 +34,7 @@ def genere_digrap(arbre):
                             bonne_cle = 2 * (i + 1)
                             break
             parent += str(bonne_cle)
-            enfant = 'node{}:f0'.format(j)
+            enfant = 'node{}:f{}'.format(j, ind_edge)
             g.edge(parent, enfant)
     # Affichage de l'arbre
     g.view()
