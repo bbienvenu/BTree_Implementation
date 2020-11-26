@@ -5,7 +5,8 @@
 # Attributs : est_feuille (determine si un noeud est une feuille ou non) ; cle (liste des cles d'un noeud) ;
 # fils (liste, liste des enfants d'un noeud)
 
-from collections import deque
+# from collections import deque
+
 
 class BTreeNode:
     def __init__(self):
@@ -14,10 +15,9 @@ class BTreeNode:
         self.est_feuille = True
 
     def parcours(self):
-        yield self 
+        yield self
         for enfant in self.fils:
             yield from enfant.parcours()
-
 
     def __str__(self):
         if self.est_feuille:
@@ -61,9 +61,10 @@ class BTreeNode:
     def genere_node_graphviz(self):
         res = "<f0> |"
         for i, k in enumerate(self.cle):
-            res += '<f{}> {}|'.format(2*i+1, k)
-            res += "<f{}> |".format(2*(i+1))
+            res += '<f{}> {}|'.format(2 * i + 1, k)
+            res += "<f{}> |".format(2 * (i + 1))
         return res[:-2]
+
 
 class BTree:
     def __init__(self, t):
@@ -161,33 +162,17 @@ class BTree:
     def __str__(self):
         return '\n' + self.racine.__str__() + '\n'.join([fils.__str__() for fils in self.racine.fils])
 
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Tests
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-# arbre = BTree(3)
-# arbre.insertion(1)
-# arbre.insertion(3)
-# arbre.insertion(7)
-# arbre.insertion(10)
-# arbre.insertion(11)
-# arbre.insertion(13)
-# arbre.insertion(14)
-# arbre.insertion(15)
-# arbre.insertion(18)
-# arbre.insertion(16)
-# arbre.insertion(19)
-# arbre.insertion(24)
-# arbre.insertion(25)
-# arbre.insertion(26)
-# arbre.insertion(21)
-# arbre.insertion(4)
-# arbre.insertion(5)
-# arbre.insertion(20)
-# arbre.insertion(22)
-# arbre.insertion(2)
-# arbre.insertion(17)
-# arbre.insertion(12)
-# arbre.insertion(6)
-# print(arbre)
+def remplir_arbre(tree, liste):
+    for e in liste:
+        tree.insertion(e)
+
+
+arbre = BTree(3)
+liste_valeurs = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
+remplir_arbre(arbre, liste_valeurs)
