@@ -50,6 +50,12 @@ class BTreeNode:
         # On retourne ces trois valeurs pour pouvoir decider ou effectuer la recherche/insertion apres le split
         return valeur_milieu, i, j
 
+    def genere_node_graphviz(self):
+        res = "<f0> |"
+        for i, k in enumerate(self.cle):
+            res += '<f{}> {}|'.format(2*i+1, k)
+            res += "<f{}> |".format(2*(i+1))
+        return res[:-2]
 
 class BTree:
     def __init__(self, t):
