@@ -8,7 +8,7 @@ def init_digraph():
                     node_attr={'shape': 'record', 'height': '.1'})
 
 def add_node(graph, node, node_number):
-    graph.node('node{}'.format(node_number), nohtml(node.genere_node_graphviz()))
+    graph.node('node{}'.format(node_number, nohtml(node.genere_node_graphviz())))
 
 def genere_digrap(arbre):
     g = init_digraph()
