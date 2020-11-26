@@ -136,7 +136,7 @@ class BTree:
         while not noeud.est_feuille:
             indice = len(noeud.cle) - 1
             # On cherche dans quel intervalle (avec quel enfant) poursuivre l'insertion (jusqu'a une feuille)
-            while indice > 0 and valeur < noeud.cle[indice]:
+            while indice >= 0 and valeur < noeud.cle[indice]:
                 indice -= 1
             prochain_noeud = noeud.fils[indice + 1]
             if self.is_full(prochain_noeud):
