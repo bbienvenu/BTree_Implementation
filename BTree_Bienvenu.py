@@ -57,6 +57,9 @@ class BTreeNode:
             res += "<f{}> |".format(2*(i+1))
         return res[:-2]
 
+    def genere_edge_graphiz(self):
+        res = ''
+
 class BTree:
     def __init__(self, t):
         self.racine = BTreeNode()
