@@ -1,14 +1,6 @@
 # --------------------------------------- Projet Final : Btrees --------------------------------------------------
 
 
-from graphviz import Digraph, nohtml
-
-
-# ----------------------------------------------------------------------------------------------------------------------
-# Implémentation de la classe B-arbre avec notamment les fonctions recherche, insertion et suppresion
-# ----------------------------------------------------------------------------------------------------------------------
-
-
 # Classe representant un noeud d'un B-arbre
 
 class BTreeNode:
@@ -96,7 +88,7 @@ class BTree:
     def __next__(self):
         return self
 
-    # Fonction pour vérifier qu'un noeud du B-arbre est complet ou non
+    # Fonction pour vérifier qu'un noeud du B-arbre est complet ou non 
 
     def est_complet(self, noeud):
         return len(noeud.cle) == 2 * self.t - 1
@@ -174,7 +166,7 @@ class BTree:
         noeud.cle.sort()
         return self
 
-    # Supprime une clé de l'arbre
+    # Supprime une cle de l'arbre
 
     def suppression(self, valeur, noeud=None):
         # On vérifie que la valeur à supprimer est bien présente dans l'arbre
@@ -343,74 +335,15 @@ class BTree:
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Visualisation d'un B-arbre grâce aux outils de la librairie graphviz
-# ----------------------------------------------------------------------------------------------------------------------
-
-
-def init_digraph():
-    return Digraph('g', filename='arbre_bienvenu.gv',
-                   node_attr={'shape': 'record', 'height': '.1'})
-
-
-# Fonction qui ajoute un noeud au graphe
-
-def add_node(graph, node, node_number):
-    graph.node('node{}'.format(node_number), nohtml(node.genere_node_graphviz()))
-
-
-# Fonction principale qui génère notre B-arbre puis l'affiche dans une fenêtre
-
-def genere_digrap(arbre):
-    g = init_digraph()
-    liste_nodes = [n for n in arbre]
-
-    # Création des nodes dans graphViz
-    for i, node in enumerate(arbre):
-        add_node(g, node, i)
-
-    # Création des arêtes
-    for ind, node in enumerate(liste_nodes):
-        parent_init = 'node{}:f'.format(ind)
-        for fils in node.fils:
-            parent = parent_init
-            j = liste_nodes.index(fils)
-            ind_edge = len(fils.cle)
-            bonne_cle = 0
-            if node.cle[bonne_cle] <= fils.cle[0]:
-                if node.cle[-1] < fils.cle[0]:
-                    bonne_cle = 2 * len(node.cle)
-                else:
-                    for i, _ in enumerate(node.cle[:-1]):
-                        if node.cle[i + 1] > fils.cle[0]:
-                            bonne_cle = 2 * (i + 1)
-                            break
-            parent += str(bonne_cle)
-            enfant = 'node{}:f{}'.format(j, ind_edge)
-            g.edge(parent, enfant)
-
-    # Affichage de l'arbre
-    g.view()
-
-
-# ----------------------------------------------------------------------------------------------------------------------
 # Tests
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-def remplir_arbre(arbre, liste):
-    for value in liste:
-        arbre.insertion(value)
-
-
-# liste = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
-
-def main():
-    arbre = BTree(3)
-    liste = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
-    remplir_arbre(arbre, liste)
-    arbre.suppression(21)
-    # arbre.suppression(19)
-    genere_digrap(arbre)
-
-
-main()
+# def remplir_arbre(tree, liste):
+#     for e in liste:
+#         tree.insertion(e)
+#
+#
+# arbre = BTree(3)
+# liste_valeurs = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
+# remplir_arbre(arbre, liste_valeurs)
