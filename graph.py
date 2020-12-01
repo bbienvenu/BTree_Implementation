@@ -51,7 +51,7 @@ def main():
     liste = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
     remplir_arbre(arbre, liste)
     arbre.suppression(21)
-    arbre.suppression(21)
+    arbre.suppression(19)
     genere_digrap(arbre)
 
 

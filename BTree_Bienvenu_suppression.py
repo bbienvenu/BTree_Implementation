@@ -171,56 +171,85 @@ class BTree:
     def suppression(self, valeur, noeud=None):
         # On vérifie que la valeur à supprimer est bien présente dans l'arbre
         if not self.recherche(valeur):
-            print("%d n'est pas dans l'arbre, cette valeur ne peut pas être supprimée !" % valeur)
+            print("%d n'est pas dans l'arbre. Cette valeur n'a pas pu être supprimée !" % valeur)
             return
 
+        # Si on ne précise pas le noeud où effectuer la suppression, on commence à la racine
         if noeud is None:
             noeud = self.racine
-        t = self.t
+
+        t = self.t  # pour alléger l'écriture
         i = 0
+
+        # On trouve le bon intervalle (de suppression) en comparant la valeur à supprimer aux clés du noeud courant
         while i < len(noeud.cle) and valeur > noeud.cle[i]:
             i += 1
+
+        # Si on atteint un noeud feuille et que la valeur à supprimer fait partie de ses clés, on la supprime
+        # Ce noeud aura nécessairement plus que le nombre min de clés puisqu'on modifie l'arbre en descendant
         if noeud.est_feuille:
             if i < len(noeud.cle) and noeud.cle[i] == valeur:
                 noeud.cle.pop(i)
                 return
             return
+
+        # Si le noeud courant est un noeud interne et que la valeur fait partie de ses clés :
         if i < len(noeud.cle) and noeud.cle[i] == valeur:
             return self.suppression_noeud_interne(noeud, valeur, i)
+
+        # Si le noeud fils où on doit poursuivre la suppression a suffisamment de clés, on continue vers ce fils
         elif len(noeud.fils[i].cle) >= t:
             self.suppression(valeur, noeud.fils[i])
+
+        # Si le noeud fils vers lequel on doit poursuivre la suppression a exactement le nombre min de clés possibles :
         else:
+            # Si le fils n'est pas aux extrémités...
             if i != 0 and i <= len(noeud.fils) - 2:
+                # ...on s'intéresse à son frère gauche. Si celui-ci a plus de clés que le min, il prêtera une clé
                 if len(noeud.fils[i - 1].cle) >= t:
                     self.suppression_frere(noeud, i, i - 1)
+                # sinon, on s'intéresse à son frère droit. Si celui-ci a plus de clés que le min, il prêtera une clé
                 elif len(noeud.fils[i + 1].cle) >= t:
                     self.suppression_frere(noeud, i, i + 1)
+                # Si aucun des deux frères n'a assez de noeud, on procèdera à une fusion au moment de la suppression
                 else:
                     self.suppression_fusion(noeud, i, i + 1)
+
+            # Si le fils est à l'extrémité gauche (le premier fils à gauche)...
             elif i == 0:
+                # ...on s'intéresse à son frère droit. Si celui-ci a plus de clés que le min, il prêtera une clé
                 if len(noeud.fils[i + 1].cle) >= t:
                     self.suppression_frere(noeud, i, i + 1)
+                # sinon on procèdera à une fusion au moment de la suppression
                 else:
                     self.suppression_fusion(noeud, i, i + 1)
+
+            # Si le fils est à l'extrémité droite (le dernier fils à droite)...
             elif i == len(noeud.fils) - 1:
+                # ...on s'intéresse à son frère gauche. Si celui-ci a plus de clés que le min, il prêtera une clé
                 if len(noeud.fils[i - 1].cle) >= t:
                     self.suppression_frere(noeud, i, i - 1)
+                # sinon on procèdera à une fusion au moment de la suppression
                 else:
                     self.suppression_fusion(noeud, i, i - 1)
             self.suppression(valeur, noeud.fils[i])
 
-    # Delete internal node
+    # Suppression d'un noeud interne
 
     def suppression_noeud_interne(self, noeud, valeur, i):
-        t = self.t
+        t = self.t  # pour alléger l'écriture
         if noeud.est_feuille:
             if noeud.cle[i] == valeur:
                 noeud.cle.pop(i)
                 return
             return
+
+        # inorder predecessor
         if len(noeud.fils[i].cle) >= t:
             noeud.cle[i] = self.suppression_predecesseur(noeud.fils[i])
             return
+
+        # inorder successor
         elif len(noeud.fils[i + 1].cle) >= t:
             noeud.cle[i] = self.suppression_sucesseur(noeud.fils[i + 1])
             return
@@ -228,7 +257,7 @@ class BTree:
             self.suppression_fusion(noeud, i, i + 1)
             self.suppression_noeud_interne(noeud.fils[i], valeur, self.t - 1)
 
-    # Delete the predecessor
+    # Suppression "predecesseur"
 
     def suppression_predecesseur(self, noeud):
         if noeud.est_feuille:
@@ -240,7 +269,7 @@ class BTree:
             self.suppression_fusion(noeud, n, n + 1)
         self.suppression_predecesseur(noeud.fils[n])
 
-    # Delete the successor
+    # Suppression "successeur"
 
     def suppression_sucesseur(self, noeud):
         if noeud.est_feuille:
@@ -251,7 +280,7 @@ class BTree:
             self.suppression_fusion(noeud, 0, 1)
         self.suppression_sucesseur(noeud.fils[0])
 
-    # Delete resolution
+    # Suppression "fusion"
 
     def suppression_fusion(self, noeud, i, j):
         cnode = noeud.fils[i]
@@ -282,7 +311,7 @@ class BTree:
         if noeud == self.racine and len(noeud.cle) == 0:
             self.racine = new
 
-    # Delete the sibling
+    # Suppression "frère"
 
     def suppression_frere(self, noeud, i, j):
         # cnode : noeud central
