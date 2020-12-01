@@ -339,11 +339,11 @@ class BTree:
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-def remplir_arbre(tree, liste):
-    for e in liste:
-        tree.insertion(e)
-
-
-arbre = BTree(3)
-liste_valeurs = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
-remplir_arbre(arbre, liste_valeurs)
+# def remplir_arbre(tree, liste):
+#     for e in liste:
+#         tree.insertion(e)
+#
+#
+# arbre = BTree(3)
+# liste_valeurs = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
+# remplir_arbre(arbre, liste_valeurs)
