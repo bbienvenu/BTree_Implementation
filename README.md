@@ -20,5 +20,7 @@ On commence à partir de la racine et on compare les valeurs de ses clés avec l
 
 Lorsqu'un élément est inséré dans une feuille qui est pleine, avant de l'insérer, on vérifie en descendant l'arbre si les nœuds précédents sont également complets. Et si oui, ils sont divisés, ce qui garantit que lorsqu'une feuille pleine est atteinte et qu'une division est appliquée sur cette feuille, le nœud parent est capable de recevoir la clé qui sera promue.
 
+**Suppression :**
 
+La suppression d'un élément dans un B-arbre consiste en trois tâches principales : la recherche du nœud où se trouve la clé à supprimer, la suppression de la clé et l'équilibrage de l'arbre si nécessaire. Il faut veiller à ce qu'après la suppression, tous les nœuds respectent les critères d'un B-arbre (notamment le nombre minimum de clés).
 
