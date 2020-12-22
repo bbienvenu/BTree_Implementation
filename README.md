@@ -77,4 +77,4 @@ Ce mode permet à l’utilisateur d'entrer une opération ou une séquence d’o
 
 Les opérations seront notées comme dans le mode batch, et une séquence d'opérations devra être notée : ```a10 a4 s5 a32 r10 a12 a1 a9```, les opérations étant séparées par des espaces.
 
-Dans ce mode, un fichier “*log_iter*” est produit afin d'afficher les opérations réalisées et leurs résultats
+Dans ce mode, un fichier “*log_iter*” est produit afin d'afficher les opérations réalisées et leurs résultats.
