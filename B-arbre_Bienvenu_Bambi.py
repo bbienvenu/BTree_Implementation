@@ -354,7 +354,7 @@ class BTree:
 
 
 def init_digraph():
-    return Digraph('g', filename='arbre_bienvenu.gv',
+    return Digraph('g', filename='arbre.gv',
                    node_attr={'shape': 'record', 'height': '.1'})
 
 
@@ -406,8 +406,8 @@ def genere_digrap(arbre):
 def batch():
     liste_operations = input("Entrez le nom du fichier txt : (exemple : operations.txt)\n")
     operations = [line.rstrip('\n') for line in open(liste_operations)]
-    open("log_batch_bienvenu.txt", "w").close()
-    fichier = open("log_batch_bienvenu.txt", "a")
+    open("log_batch.txt", "w").close()
+    fichier = open("log_batch.txt", "a")
     t = int(operations.pop(0))
     arbre = BTree(t)
     for element in operations:
@@ -430,8 +430,8 @@ def batch():
 
 
 def interactif():
-    open("log_inter_bienvenu.txt", "w").close()
-    fichier = open("log_inter_bienvenu.txt", "a")
+    open("log_inter.txt", "w").close()
+    fichier = open("log_inter.txt", "a")
     t = int(input("Entrez le degré de l'arbre :\n"))
     arbre = BTree(t)
     opr = input("Entrez votre sequence d'operations en les separant par des espaces :\n")
