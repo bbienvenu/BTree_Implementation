@@ -1,6 +1,6 @@
 # --------------------------------------- Projet Final : Btrees --------------------------------------------------
 
-
+import sys
 from graphviz import Digraph, nohtml
 
 
@@ -104,7 +104,7 @@ class BTree:
     # Fonction qui recherche une valeur donnée dans un B-arbre
     # La fonction renvoie True ou False selon que la valeur est dans l'arbre ou non
 
-    def recherche(self, valeur, noeud=None):
+    def recherche(self, file, valeur, log=True, noeud=None):
         # Si on ne precise pas à partir de quel noeud effectuer la recherche, on commence à la racine
         if noeud is None:
             noeud = self.racine
@@ -117,21 +117,26 @@ class BTree:
 
         # Si la valeur recherchee se trouve dans les clés du noeud courant, on s'arrete et on renvoie True
         if indice < n and valeur == noeud.cle[indice]:
+            if log:
+                file.write("- Recherche de la valeur %d\n%d a été retrouvé dans le graphe !\n" % (valeur, valeur))
             return True
 
         # Si on n'a pas trouvé la valeur dans les clés du noeud courant et que c'est un noeud feuille, on renvoie False
         elif noeud.est_feuille:
+            if log:
+                file.write("- Recherche de la valeur %d\n%d n'a pas été retrouvé dans le graphe !\n" % (valeur, valeur))
             return False
 
         # Sinon on poursuit la recherche parmi les clés du "bon fils" du noeud courant
-        return self.recherche(valeur, noeud.fils[indice])
+        return self.recherche(file, valeur, log, noeud.fils[indice])
 
     # Fonction qui insère une valeur dans un B-arbre via un algorithme proactif (cf. Cormen)
 
-    def insertion(self, valeur):
+    def insertion(self, file, valeur):
+        file.write("- Insertion de la valeur %d\n" % valeur)
         # Si la valeur qu'on souhaite insérer existe déjà dans l'arbre, on arrête l'insertion
-        if self.recherche(valeur):
-            print("%d est déjà dans l'arbre !" % valeur)
+        if self.recherche(file, valeur, log=False):
+            file.write("%d n'a pas été rajouté, la valeur était déjà dans l'arbre !\n" % valeur)
             return
 
         noeud = self.racine
@@ -169,17 +174,19 @@ class BTree:
             else:
                 noeud = prochain_noeud
 
-    # Vu qu'on divise tous les noeuds complets dans la déscente, on peut insérer la valeur directement dans la feuille
+        # Vu qu'on divise tous les noeuds complets dans la déscente, on peut insérer la valeur directement dans la
+        # feuille
         noeud.cle.append(valeur)
         noeud.cle.sort()
         return self
 
     # Supprime une clé de l'arbre
 
-    def suppression(self, valeur, noeud=None):
+    def suppression(self, file, valeur, noeud=None):
+        file.write("- Suppression de la valeur %d\n" % valeur)
         # On vérifie que la valeur à supprimer est bien présente dans l'arbre
-        if not self.recherche(valeur):
-            print("%d n'est pas dans l'arbre. Cette valeur n'a pas pu être supprimée !" % valeur)
+        if not self.recherche(file, valeur, log=False):
+            file.write("%d n'est pas dans l'arbre. Cette valeur n'a pas pu être supprimée !\n" % valeur)
             return
 
         # Si on ne précise pas le noeud où effectuer la suppression, on commence à la racine
@@ -207,7 +214,7 @@ class BTree:
 
         # Si le noeud fils où on doit poursuivre la suppression a suffisamment de clés, on continue vers ce fils
         elif len(noeud.fils[i].cle) >= t:
-            self.suppression(valeur, noeud.fils[i])
+            self.suppression(file, valeur, noeud.fils[i])
 
         # Si le noeud fils vers lequel on doit poursuivre la suppression a exactement le nombre min de clés possibles :
         else:
@@ -240,7 +247,7 @@ class BTree:
                 # sinon on procèdera à une fusion au moment de la suppression
                 else:
                     self.suppression_fusion(noeud, i, i - 1)
-            self.suppression(valeur, noeud.fils[i])
+            self.suppression(file, valeur, noeud.fils[i])
 
     # Suppression d'un noeud interne
 
@@ -393,24 +400,71 @@ def genere_digrap(arbre):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Tests
+# Mode batch
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-def remplir_arbre(arbre, liste):
-    for value in liste:
-        arbre.insertion(value)
-
-
-# liste = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
-
-def main():
-    arbre = BTree(3)
-    liste = [1, 3, 7, 10, 11, 13, 14, 15, 18, 16, 19, 24, 25, 26, 21, 4, 5, 20, 22, 2, 17, 12, 6]
-    remplir_arbre(arbre, liste)
-    arbre.suppression(21)
-    # arbre.suppression(19)
+def batch():
+    operations = [line.rstrip('\n') for line in open(sys.argv[1])]
+    open("log_batch_bienvenu.txt", "w").close()
+    fichier = open("log_batch_bienvenu.txt", "a")
+    t = int(operations.pop(0))
+    arbre = BTree(t)
+    for element in operations:
+        value = int(element[1:])
+        if element[0] == "a":
+            arbre.insertion(fichier, value)
+        elif element[0] == "r":
+            arbre.suppression(fichier, value)
+        elif element[0] == "s":
+            arbre.recherche(fichier, value)
+        else:
+            fichier.write("!! Erreur, préfixe '%s' non reconnu !!\n" % element[0])
+    fichier.close()
     genere_digrap(arbre)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Mode interactif
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+def interactif():
+    open("log_inter_bienvenu.txt", "w").close()
+    fichier = open("log_inter_bienvenu.txt", "a")
+    t = int(input("Entrez le degré de l'arbre :\n"))
+    arbre = BTree(t)
+    opr = input("Entrez votre sequence d'operations en les separant par des espaces :\n")
+    operations = opr.split()
+    reponse = input("Souhaitez-vous entrer d'autres opérations ? Y or N\n")
+    while reponse.upper() == "Y":
+        opr = input("Entrez votre sequence d'operations en les separant par des espaces :\n")
+        operations.extend(opr.split())
+        reponse = input("Souhaitez-vous entrer d'autres opérations ? Y or N\n")
+    for element in operations:
+        value = int(element[1:])
+        if element[0] == "a":
+            arbre.insertion(fichier, value)
+        elif element[0] == "r":
+            arbre.suppression(fichier, value)
+        elif element[0] == "s":
+            arbre.recherche(fichier, value)
+        else:
+            fichier.write("!! Erreur, préfixe '%s' non reconnu !!\n" % element[0])
+    fichier.close()
+    genere_digrap(arbre)
+
+
+# ------------------------------------------------- main ----------------------------------------------------------
+def main():
+    mode = input("Quel mode souhaitez-vous utiliser ? 1=batch et 2=interactif\n")
+    while (mode != "1") and (mode != "2"):
+        print("Entrez 1 ou 2")
+        mode = input("Quel mode souhaitez-vous utiliser ? 1=batch et 2=interactif\n")
+    if mode == "1":
+        batch()
+    elif mode == "2":
+        interactif()
 
 
 main()

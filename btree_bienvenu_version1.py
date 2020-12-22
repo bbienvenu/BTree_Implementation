@@ -424,7 +424,7 @@ def batch():
     genere_digrap(arbre)
 
 
-batch()
+# batch()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -459,3 +459,18 @@ def interactif():
 
 
 # interactif()
+
+
+# ------------------------------------------------- main ----------------------------------------------------------
+def main():
+    mode = input("Quel mode souhaitez-vous utiliser ? 1=batch et 2=interactif\n")
+    while (mode != "1") and (mode != "2"):
+        print("Entrez 1 ou 2")
+        mode = input("Quel mode souhaitez-vous utiliser ? 1=batch et 2=interactif\n")
+    if mode == "1":
+        batch()
+    elif mode == "2":
+        interactif()
+
+
+main()
