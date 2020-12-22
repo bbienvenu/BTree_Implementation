@@ -118,13 +118,13 @@ class BTree:
         # Si la valeur recherchee se trouve dans les clés du noeud courant, on s'arrete et on renvoie True
         if indice < n and valeur == noeud.cle[indice]:
             if log:
-                file.write("%d a été retrouvé dans le graphe !\n" % valeur)
+                file.write("- Recherche de la valeur %d\n%d a été retrouvé dans le graphe !\n" % (valeur, valeur))
             return True
 
         # Si on n'a pas trouvé la valeur dans les clés du noeud courant et que c'est un noeud feuille, on renvoie False
         elif noeud.est_feuille:
             if log:
-                file.write("%d n'a pas été retrouvé dans le graphe !\n" % valeur)
+                file.write("- Recherche de la valeur %d\n%d n'a pas été retrouvé dans le graphe !\n" % (valeur, valeur))
             return False
 
         # Sinon on poursuit la recherche parmi les clés du "bon fils" du noeud courant
@@ -133,6 +133,7 @@ class BTree:
     # Fonction qui insère une valeur dans un B-arbre via un algorithme proactif (cf. Cormen)
 
     def insertion(self, file, valeur):
+        file.write("- Insertion de la valeur %d\n" % valeur)
         # Si la valeur qu'on souhaite insérer existe déjà dans l'arbre, on arrête l'insertion
         if self.recherche(file, valeur, log=False):
             file.write("%d n'a pas été rajouté, la valeur était déjà dans l'arbre !\n" % valeur)
@@ -173,7 +174,8 @@ class BTree:
             else:
                 noeud = prochain_noeud
 
-        # Vu qu'on divise tous les noeuds complets dans la déscente, on peut insérer la valeur directement dans la feuille
+        # Vu qu'on divise tous les noeuds complets dans la déscente, on peut insérer la valeur directement dans la
+        # feuille
         noeud.cle.append(valeur)
         noeud.cle.sort()
         return self
@@ -181,6 +183,7 @@ class BTree:
     # Supprime une clé de l'arbre
 
     def suppression(self, file, valeur, noeud=None):
+        file.write("- Suppression de la valeur %d\n" % valeur)
         # On vérifie que la valeur à supprimer est bien présente dans l'arbre
         if not self.recherche(file, valeur, log=False):
             file.write("%d n'est pas dans l'arbre. Cette valeur n'a pas pu être supprimée !\n" % valeur)
@@ -401,7 +404,7 @@ def genere_digrap(arbre):
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-def main():
+def batch():
     operations = [line.rstrip('\n') for line in open("liste_operation.txt")]
     open("log_batch_bienvenu.txt", "w").close()
     fichier = open("log_batch_bienvenu.txt", "a")
@@ -416,12 +419,12 @@ def main():
         elif element[0] == "s":
             arbre.recherche(fichier, value)
         else:
-            fichier.write("Erreur, préfixe '%s' non reconnu\n" % element[0])
+            fichier.write("!! Erreur, préfixe '%s' non reconnu !!\n" % element[0])
     fichier.close()
     genere_digrap(arbre)
 
 
-# main()
+batch()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -450,8 +453,9 @@ def interactif():
         elif element[0] == "s":
             arbre.recherche(fichier, value)
         else:
-            fichier.write("Erreur, préfixe '%s' non reconnu\n" % element[0])
+            fichier.write("!! Erreur, préfixe '%s' non reconnu !!\n" % element[0])
     fichier.close()
     genere_digrap(arbre)
 
-interactif()
+
+# interactif()
