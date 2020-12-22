@@ -76,4 +76,5 @@ Notez que la première valeur n'est précédée par aucun préfixe ; il s'agit d
 
 Ce mode permet à l’utilisateur d'entrer une opération ou une séquence d’opérations à réaliser. 
 
-Les opérations seront notées comme dans le mode batch, et une séquence d'opérations devra être notée : ```a10 a4 s5 a32 r10 a12 a1 a9```
+Les opérations seront notées comme dans le mode batch, et une séquence d'opérations devra être notée : ```a10 a4 s5 a32 r10 a12 a1 a9```, les opérations étant séparées par des espaces.
+
