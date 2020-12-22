@@ -44,9 +44,9 @@ Ce mode permet d’exécuter un ensemble d’opérations décrites dans un fichi
 
 Les opérations doivent être notées comme suit :
 
-- a : pour insérer un élément dans l'arbre
-- s : pour rechercher une valeur dans l'arbre
-- r : pour supprimer une valeur de l'arbre
+- a : pour insérer un élément dans l'arbre. On écrira *a20* pour insérer la valeur **20**
+- s : pour rechercher une valeur dans l'arbre. On écrira *s20* pour rechercher la valeur **20**
+- r : pour supprimer une valeur de l'arbre. On écrira *r20* pour supprimer la valeur **20**
 
 On noterait par exemple la liste d'opérations suivante (dans un fichier .txt) : 
 
@@ -70,4 +70,4 @@ a24
 r19
 ```
 
-Notez que la première valeur n'est précédée par aucun préfixe ; il s'agit du degré de l'arbre. De plus chaque opération doit être écrite sur une ligne.
+Notez que la première valeur n'est précédée par aucun préfixe ; il s'agit du degré de l'arbre. De plus chaque opération doit être écrite sur une ligne (attention à ne pas mettre d'espace mais uniquement un retour à la ligne)
