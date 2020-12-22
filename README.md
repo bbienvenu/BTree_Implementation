@@ -37,7 +37,7 @@ Les détails de l'installation sont expliqués ici https://pypi.org/project/grap
 
 IL existe deux modes pour ce projet : un mode "batch" et un mode intéractif.
 
-- **Mode batch** : 
+- <ins>**Mode batch** :<\ins> 
 
 Ce mode permet d’exécuter un ensemble d’opérations décrites dans un fichier txt et de produire un fichier txt “*log_batch*” qui permet d’afficher les opérations réalisées (et leur résultat).
 Les opérations doivent être notées comme suit :
