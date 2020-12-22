@@ -38,7 +38,7 @@ Les détails de l'installation sont expliqués ici https://pypi.org/project/grap
 
 IL existe deux modes pour ce projet : un mode "batch" et un mode intéractif.
 
-- <ins>**Mode batch** :</ins>
+#### <ins>**Mode batch** :</ins>
 
 Ce mode permet d’exécuter un ensemble d’opérations décrites dans un fichier txt et de produire un fichier txt “*log_batch*” qui permet d’afficher les opérations réalisées (et leur résultat).
 
@@ -71,8 +71,7 @@ r19
 ```
 
 Notez que la première valeur n'est précédée par aucun préfixe ; il s'agit du degré de l'arbre. De plus chaque opération doit être écrite sur une ligne (attention à ne pas mettre d'espace mais uniquement un retour à la ligne après chaque opération). Enfin, le fichier txt contenant les opérations doit être placé dans le même dossier (répertoire) que le script Python.
-
-- <ins>**Mode intéractif** :</ins> 
+#### <ins>**Mode intéractif** :</ins> 
 
 Ce mode permet à l’utilisateur d'entrer une opération ou une séquence d’opérations à réaliser. 
 
