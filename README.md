@@ -24,3 +24,10 @@ Lorsqu'un élément est inséré dans une feuille qui est pleine, avant de l'ins
 
 La suppression d'un élément dans un B-arbre consiste en trois tâches principales : la recherche du nœud où se trouve la clé à supprimer, la suppression de la clé et l'équilibrage de l'arbre si nécessaire. Il faut veiller à ce qu'après la suppression, tous les nœuds respectent les critères d'un B-arbre (notamment le nombre minimum de clés).
 
+
+## Installations et usage
+
+# Installations
+
+Le script requiert l'installation de la bibliothèque graphviz qui gère l'affichage des B-arbres.
+Les détails de l'installation sont expliqués ici https://pypi.org/project/graphviz/
