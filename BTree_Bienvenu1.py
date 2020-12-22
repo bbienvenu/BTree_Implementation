@@ -401,10 +401,10 @@ def genere_digrap(arbre):
 # ----------------------------------------------------------------------------------------------------------------------
 
 
-def main():
-    operations = [line.rstrip('\n') for line in open("liste_operation.txt")]
-    open("log_batch_bienvenu.txt", "w").close()
-    fichier = open("log_batch_bienvenu.txt", "a")
+def batch():
+    operations = [line.rstrip('\n') for line in open(sys.argv[1])]
+    open("log_bienvenu.txt", "w").close()
+    fichier = open("log_bienvenu.txt", "a")
     t = int(operations.pop(0))
     arbre = BTree(t)
     for element in operations:
@@ -421,7 +421,7 @@ def main():
     genere_digrap(arbre)
 
 
-# main()
+batch()
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -453,5 +453,6 @@ def interactif():
             fichier.write("Erreur, préfixe '%s' non reconnu\n" % element[0])
     fichier.close()
     genere_digrap(arbre)
+
 
 interactif()
