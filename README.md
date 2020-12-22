@@ -27,7 +27,21 @@ La suppression d'un élément dans un B-arbre consiste en trois tâches principa
 
 ## Installations et usage
 
-# Installations
+### Installations
 
 Le script requiert l'installation de la bibliothèque graphviz qui gère l'affichage des B-arbres.
-Les détails de l'installation sont expliqués ici https://pypi.org/project/graphviz/
+Les détails de l'installation sont expliqués ici https://pypi.org/project/graphviz/.
+
+
+### Usage
+
+IL existe deux modes pour ce projet : un mode "batch" et un mode intéractif.
+
+- **Mode batch** : 
+
+Ce mode permet d’exécuter un ensemble d’opérations décrites dans un fichier txt et de produire un fichier txt “*log_batch*” qui permet d’afficher les opérations réalisées (et leur résultat).
+Les opérations doivent être notées comme suit :
+
+- a : pour insérer un élément dans l'arbre
+- s : pour rechercher une valeur dans l'arbre
+- r : pour supprimer une valeur de l'arbre
