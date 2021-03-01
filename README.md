@@ -9,7 +9,7 @@ Méthodes implémentées :
 - Création d'un arbre
 - Recherche
 - Insertion
-- Suppression
+- Suppression (qui reprend les éléments de la page suivante https://www.programiz.com/dsa/deletion-from-a-b-tree)
 - Affichage
 
 **Recherche :**
